@@ -1,12 +1,22 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-  flex: 1;
   display: flex;
+  flex: 1;
+`;
+
+export const Content = styled.div`
+  background: linear-gradient(to bottom, #414141 0%, #181818 100%), transparent;
+  background-position: top;
+  background-repeat: no-repeat;
+  background-size: 100% 250px, 100%;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
 `;
 
 export const Wrapper = styled.div`
-  height: 100%;
   display: flex;
   flex-direction: column;
+  height: 100%;
 `;
