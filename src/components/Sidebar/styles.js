@@ -25,7 +25,7 @@ export const Nav = styled.ul`
   a {
     color: inherit;
     font-size: 13px;
-    font-weight: ${props => (props.main ? 'bold' : 'regular')}
+    font-weight: ${props => (props.main ? 'bold' : 'regular')};
     text-decoration: none;
     line-height: 32px;
 
