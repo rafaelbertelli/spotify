@@ -20,4 +20,8 @@ export const GlobalStyle = createGlobalStyle`
     -moz-osx-font-smoothing: grayscale !important;
     -webkit-font-smoothing: antialiased !important;
   }
+
+  a, button {
+    cursor: pointer;
+  }
 `;
