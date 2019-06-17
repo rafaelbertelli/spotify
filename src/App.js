@@ -1,5 +1,7 @@
 import React from 'react';
+import { BrowserRouter } from 'react-router-dom';
 
+import Routes from './routes';
 import Sidebar from './components/Sidebar';
 import Player from './components/Player';
 import Header from './components/Header';
@@ -11,16 +13,18 @@ function App() {
   return (
     <>
       <GlobalStyle />
-      <Wrapper>
-        <Container>
-          <Sidebar />
-
-          <Content>
-            <Header />
-          </Content>
-        </Container>
-        <Player />
-      </Wrapper>
+      <BrowserRouter>
+        <Wrapper>
+          <Container>
+            <Sidebar />
+            <Content>
+              <Header />
+              <Routes />
+            </Content>
+          </Container>
+          <Player />
+        </Wrapper>
+      </BrowserRouter>
     </>
   );
 }
