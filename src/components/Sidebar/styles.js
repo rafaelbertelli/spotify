@@ -2,12 +2,14 @@ import styled from 'styled-components';
 
 export const Container = styled.aside`
   background-color: #121212;
-  color: '#b3b3b3';
+  color: #b3b3b3;
   display: flex;
   flex-direction: column;
   height: 100%;
   justify-content: space-between;
   width: 200px;
+
+  overflow: auto;
 
   > div {
     padding: 25px;
