@@ -10,19 +10,17 @@ export const Container = styled.div`
 
 export const List = styled.div`
   display: flex;
+  flex-wrap: wrap;
   margin-top: 20px;
 `;
 
 export const Playlist = styled(Link)`
   display: flex;
   flex-direction: column;
-  margin-left: 20px;
+  margin-right: 20px;
+  margin-bottom: 20px;
   text-decoration: none;
   width: 250px;
-
-  &:first-child {
-    margin-left: 0;
-  }
 
   &:hover img {
     opacity: 0.6;
