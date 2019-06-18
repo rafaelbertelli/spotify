@@ -4,6 +4,7 @@ import ClockIcon from '../../assets/images/clock.svg';
 import PlusIcon from '../../assets/images/plus.svg';
 import { Container, Header, SongList } from './styles';
 
+console.tron.log('Rafiusk!!!');
 export default function Playlist() {
   return (
     <Container>
