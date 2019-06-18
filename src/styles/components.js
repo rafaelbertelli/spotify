@@ -13,6 +13,7 @@ export const Content = styled.div`
   display: flex;
   flex: 1;
   flex-direction: column;
+  overflow: auto;
   padding: 0 20px;
 `;
 
