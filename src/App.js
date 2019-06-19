@@ -1,6 +1,8 @@
 import React from 'react';
+import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 
+import store from './store';
 import './config/reactotron';
 import Routes from './routes';
 import Sidebar from './components/Sidebar';
@@ -12,7 +14,7 @@ import { Container, Content, Wrapper } from './styles/components';
 
 function App() {
   return (
-    <>
+    <Provider store={store}>
       <GlobalStyle />
       <BrowserRouter>
         <Wrapper>
@@ -26,7 +28,7 @@ function App() {
           <Player />
         </Wrapper>
       </BrowserRouter>
-    </>
+    </Provider>
   );
 }
 
