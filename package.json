@@ -17,7 +17,9 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "lint:css": "stylelint './src/**/*.js'"
+    "lint:css": "stylelint './src/**/*.js'",
+    "mock": "json-server -p 4000 --watch server.json",
+    "mock:delay": "json-server -p 4000 --watch --delay 500 server.json"
   },
   "eslintConfig": {
     "extends": "react-app"
