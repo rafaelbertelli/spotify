@@ -31,7 +31,7 @@ export const Nav = styled.ul`
     line-height: 32px;
 
     &:hover {
-      color: #b3b3b3;
+      color: #fff;
     }
   }
 

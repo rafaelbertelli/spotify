@@ -1,46 +1,61 @@
-import React from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { Creators as PlaylistsActions } from '../../store/ducks/playlists';
 
 import { Container, List, Playlist, Title } from './styles';
 
-export default function Browse() {
-  return (
-    <Container>
-      <Title>Navegar</Title>
+class Browse extends Component {
+  static propTypes = {
+    getPlaylistRequest: PropTypes.func.isRequired,
+    playlists: PropTypes.shape({
+      data: PropTypes.arrayOf(
+        PropTypes.shape({
+          id: PropTypes.number,
+          title: PropTypes.string,
+          thumbnail: PropTypes.string,
+          description: PropTypes.string,
+        })
+      ),
+    }).isRequired,
+  };
 
-      <List>
-        <Playlist to="/playlists/1">
-          <img
-            src="https://upload.wikimedia.org/wikipedia/en/thumb/8/8d/Angra_-_Rebirth_%282001%29.jpg/220px-Angra_-_Rebirth_%282001%29.jpg"
-            alt="Playlist"
-          />
-          <strong>Rock dos bons</strong>
-          <p>Relaxe enquanto você programa enquanto ouve as melhores do rock</p>
-        </Playlist>
-        <Playlist to="/playlists/1">
-          <img
-            src="https://upload.wikimedia.org/wikipedia/en/thumb/8/8d/Angra_-_Rebirth_%282001%29.jpg/220px-Angra_-_Rebirth_%282001%29.jpg"
-            alt="Playlist"
-          />
-          <strong>Rock dos bons</strong>
-          <p>Relaxe enquanto você programa enquanto ouve as melhores do rock</p>
-        </Playlist>
-        <Playlist to="/playlists/1">
-          <img
-            src="https://upload.wikimedia.org/wikipedia/en/thumb/8/8d/Angra_-_Rebirth_%282001%29.jpg/220px-Angra_-_Rebirth_%282001%29.jpg"
-            alt="Playlist"
-          />
-          <strong>Rock dos bons</strong>
-          <p>Relaxe enquanto você programa enquanto ouve as melhores do rock</p>
-        </Playlist>
-        <Playlist to="/playlists/1">
-          <img
-            src="https://upload.wikimedia.org/wikipedia/en/thumb/8/8d/Angra_-_Rebirth_%282001%29.jpg/220px-Angra_-_Rebirth_%282001%29.jpg"
-            alt="Playlist"
-          />
-          <strong>Rock dos bons</strong>
-          <p>Relaxe enquanto você programa enquanto ouve as melhores do rock</p>
-        </Playlist>
-      </List>
-    </Container>
-  );
+  componentDidMount() {
+    this.props.getPlaylistRequest();
+  }
+
+  render() {
+    return (
+      <Container>
+        <Title>Navegar</Title>
+
+        <List>
+          {this.props.playlists.data.map(playlist => (
+            <Playlist key={playlist.id} to={`/playlists/${playlist.id}`}>
+              <img
+                src={playlist.thumbnail}
+                alt={`Playlist ${playlist.title}`}
+              />
+              <strong>{playlist.title}</strong>
+              <p>{playlist.description}</p>
+            </Playlist>
+          ))}
+        </List>
+      </Container>
+    );
+  }
 }
+
+const mapStateToProps = state => ({
+  playlists: state.playlists,
+});
+
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(PlaylistsActions, dispatch);
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Browse);
