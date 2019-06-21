@@ -6,54 +6,10 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Creators as PlaylistsActions } from '../../store/ducks/playlists';
 
+import Loading from '../Loading';
+
 import AddPlayListIcon from '../../assets/images/add_playlist.svg';
-
 import { Container, Nav, NewPlaylist } from './styles';
-
-const StaticNav = () => (
-  <>
-    <Nav main>
-      <li>
-        <Link to="/">Navegar</Link>
-      </li>
-      <li>
-        <a>Rádio</a>
-      </li>
-    </Nav>
-    <Nav>
-      <li>
-        <span>Sua Biblioteca</span>
-      </li>
-      <li>
-        <a>Seu daily mix</a>
-      </li>
-      <li>
-        <a>Tocados recentemente</a>
-      </li>
-      <li>
-        <a>Músicas</a>
-      </li>
-      <li>
-        <a>Álbuns</a>
-      </li>
-      <li>
-        <a>Artistas</a>
-      </li>
-      <li>
-        <a>Estações</a>
-      </li>
-      <li>
-        <a>Arquivos locais</a>
-      </li>
-      <li>
-        <a>Vídeos</a>
-      </li>
-      <li>
-        <a>Podcasts</a>
-      </li>
-    </Nav>
-  </>
-);
 
 class Sidebar extends Component {
   static propTypes = {
@@ -65,6 +21,7 @@ class Sidebar extends Component {
           title: PropTypes.string,
         })
       ),
+      loading: PropTypes.bool.isRequired,
     }).isRequired,
   };
 
@@ -76,11 +33,52 @@ class Sidebar extends Component {
     return (
       <Container>
         <div>
-          <StaticNav />
+          <Nav main>
+            <li>
+              <Link to="/">Navegar</Link>
+            </li>
+            <li>
+              <a>Rádio</a>
+            </li>
+          </Nav>
+          <Nav>
+            <li>
+              <span>Sua Biblioteca</span>
+            </li>
+            <li>
+              <a>Seu daily mix</a>
+            </li>
+            <li>
+              <a>Tocados recentemente</a>
+            </li>
+            <li>
+              <a>Músicas</a>
+            </li>
+            <li>
+              <a>Álbuns</a>
+            </li>
+            <li>
+              <a>Artistas</a>
+            </li>
+            <li>
+              <a>Estações</a>
+            </li>
+            <li>
+              <a>Arquivos locais</a>
+            </li>
+            <li>
+              <a>Vídeos</a>
+            </li>
+            <li>
+              <a>Podcasts</a>
+            </li>
+          </Nav>
           <Nav>
             <li>
               <span>Playlists</span>
+              {this.props.playlists.loading && <Loading />}
             </li>
+
             {this.props.playlists.data.map(playlist => (
               <li key={playlist.id}>
                 <Link to={`/playlists/${playlist.id}`}>{playlist.title}</Link>

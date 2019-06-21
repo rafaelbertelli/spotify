@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 
+import { Spinner } from '../Loading/styles';
+
 export const Container = styled.aside`
   background-color: #121212;
   color: #b3b3b3;
@@ -23,24 +25,34 @@ export const Nav = styled.ul`
     margin-top: 0;
   }
 
-  a {
-    color: inherit;
-    font-size: 13px;
-    font-weight: ${props => (props.main ? 'bold' : 'regular')};
-    text-decoration: none;
-    line-height: 32px;
+  li {
+    display: flex;
+    align-items: center;
 
-    &:hover {
-      color: #fff;
+    a {
+      color: inherit;
+      font-size: 13px;
+      font-weight: ${props => (props.main ? 'bold' : 'regular')};
+      text-decoration: none;
+      line-height: 32px;
+
+      &:hover {
+        color: #fff;
+      }
     }
-  }
 
-  span {
-    font-size: 11px;
-    font-weight: 300;
-    letter-spacing: 1.11px;
-    line-height: 22px;
-    text-transform: uppercase;
+    span {
+      font-size: 11px;
+      font-weight: 300;
+      letter-spacing: 1.11px;
+      line-height: 22px;
+      text-transform: uppercase;
+    }
+
+    ${Spinner} {
+      height: 15px;
+      margin-left: 15px;
+    }
   }
 `;
 
