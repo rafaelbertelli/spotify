@@ -10,7 +10,7 @@ import Loading from '../../components/Loading';
 
 import ClockIcon from '../../assets/images/clock.svg';
 import PlusIcon from '../../assets/images/plus.svg';
-import { Container, Header, SongList } from './styles';
+import { Container, Header, SongItem, SongList } from './styles';
 
 class Playlist extends Component {
   static propTypes = {
@@ -35,8 +35,15 @@ class Playlist extends Component {
         ),
       }).isRequired,
     }),
+    currentSong: PropTypes.shape({
+      id: PropTypes.number,
+    }),
     getPlaylistDetailsRequest: PropTypes.func.isRequired,
     loadSong: PropTypes.func.isRequired,
+  };
+
+  state = {
+    selectedSong: null,
   };
 
   componentDidMount() {
@@ -87,9 +94,15 @@ class Playlist extends Component {
               </tr>
             ) : (
               pList.songs.map(song => (
-                <tr
+                <SongItem
                   key={song.id}
+                  onClick={() => this.setState({ selectedSong: song.id })}
                   onDoubleClick={() => this.props.loadSong(song)}
+                  selected={this.state.selectedSong === song.id}
+                  playing={
+                    this.props.currentSong &&
+                    this.props.currentSong.id === song.id
+                  }
                 >
                   <td>
                     <img src={PlusIcon} alt="Adicionar à playlist" />
@@ -98,7 +111,7 @@ class Playlist extends Component {
                   <td>{song.author}</td>
                   <td>{song.album}</td>
                   <td>3:36</td>
-                </tr>
+                </SongItem>
               ))
             )}
           </tbody>
@@ -120,6 +133,7 @@ class Playlist extends Component {
 
 const mapStateToProps = state => ({
   playlistDetails: state.playlistDetails,
+  currentSong: state.player.currentSong,
 });
 
 const mapDispatchToProps = dispatch =>

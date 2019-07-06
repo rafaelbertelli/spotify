@@ -64,6 +64,30 @@ export const Header = styled.header`
   }
 `;
 
+export const SongItem = styled.tr`
+  &:hover td {
+    background-color: #282828;
+  }
+
+  td {
+    background: ${props => (props.selected ? '#282828' : 'transparent')};
+    border-top: 1px solid #282828;
+    color: ${props => (props.playing ? '#1ED760' : '#FFF')}
+    font-size: 13px;
+    padding: 0 10px;
+    line-height: 40px;
+
+    &:first-child {
+      width: 80px;
+      text-align: right;
+    }
+
+    &:last-child {
+      text-align: right;
+    }
+  }
+`;
+
 export const SongList = styled.table`
   width: 100%;
   text-align: left;
@@ -76,28 +100,6 @@ export const SongList = styled.table`
     font-weight: normal;
     text-transform: uppercase;
     padding: 5px 10px;
-
-    &:last-child {
-      text-align: right;
-    }
-  }
-
-  tr {
-    &:hover td {
-      background-color: #282828;
-    }
-  }
-
-  td {
-    border-top: 1px solid #282828;
-    font-size: 13px;
-    padding: 0 10px;
-    line-height: 40px;
-
-    &:first-child {
-      width: 80px;
-      text-align: right;
-    }
 
     &:last-child {
       text-align: right;
