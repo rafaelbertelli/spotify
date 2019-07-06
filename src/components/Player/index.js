@@ -1,5 +1,10 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
+import { connect } from 'react-redux';
+
 import Slider from 'rc-slider';
+import Sound from 'react-sound';
 
 import BackwardIcon from '../../assets/images/backward.svg';
 import ForwardIcon from '../../assets/images/forward.svg';
@@ -19,9 +24,13 @@ import {
   Volume,
 } from './styles';
 
-export default function Player() {
+const Player = ({ player }) => {
   return (
     <Container>
+      {!!player.currentSong && (
+        <Sound url={player.currentSong.file} playStatus={player.status} />
+      )}
+
       <Current>
         <img
           src="https://upload.wikimedia.org/wikipedia/en/thumb/8/8d/Angra_-_Rebirth_%282001%29.jpg/220px-Angra_-_Rebirth_%282001%29.jpg"
@@ -79,4 +88,18 @@ export default function Player() {
       </Volume>
     </Container>
   );
-}
+};
+
+Player.propTypes = {
+  player: PropTypes.shape({
+    currentSong: PropTypes.shape({
+      file: PropTypes.string,
+    }),
+  }).isRequired,
+};
+
+const mapStateToProps = state => ({
+  player: state.player,
+});
+
+export default connect(mapStateToProps)(Player);
