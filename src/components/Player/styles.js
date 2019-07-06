@@ -21,6 +21,7 @@ export const Controls = styled.div`
 `;
 
 export const Current = styled.div`
+  width: 220px;
   align-items: center;
   display: flex;
 

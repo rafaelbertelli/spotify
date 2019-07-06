@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 
 import { connect } from 'react-redux';
@@ -32,14 +32,18 @@ const Player = ({ player }) => {
       )}
 
       <Current>
-        <img
-          src="https://upload.wikimedia.org/wikipedia/en/thumb/8/8d/Angra_-_Rebirth_%282001%29.jpg/220px-Angra_-_Rebirth_%282001%29.jpg"
-          alt="Capa do álbum"
-        />
-        <div>
-          <span>Rebirth</span>
-          <small>Angra</small>
-        </div>
+        {player.currentSong && (
+          <Fragment>
+            <img
+              src={player.currentSong.thumbnail}
+              alt={player.currentSong.album}
+            />
+            <div>
+              <span>{player.currentSong.title}</span>
+              <small>{player.currentSong.author}</small>
+            </div>
+          </Fragment>
+        )}
       </Current>
 
       <Progress>
@@ -94,6 +98,10 @@ Player.propTypes = {
   player: PropTypes.shape({
     currentSong: PropTypes.shape({
       file: PropTypes.string,
+      thumbnail: PropTypes.string,
+      album: PropTypes.string,
+      title: PropTypes.string,
+      author: PropTypes.string,
     }),
   }).isRequired,
 };
