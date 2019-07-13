@@ -5,12 +5,15 @@ const Types = {
   LOAD: 'player/LOAD',
   PLAY: 'player/PLAY',
   PAUSE: 'player/PAUSE',
+  PREV: 'player/PREV',
+  NEXT: 'player/NEXT',
 };
 
 /** REDUCERS */
 const INITIAL_STATE = {
-  currentSong: null,
   status: Sound.status.STOPPED,
+  currentSong: null,
+  list: [],
 };
 
 export default function player(state = INITIAL_STATE, action) {
@@ -18,8 +21,9 @@ export default function player(state = INITIAL_STATE, action) {
     case Types.LOAD:
       return {
         ...state,
-        currentSong: action.payload.song,
         status: Sound.status.PLAYING,
+        currentSong: action.payload.song,
+        list: action.payload.list,
       };
 
     case Types.PLAY:
@@ -34,18 +38,59 @@ export default function player(state = INITIAL_STATE, action) {
         status: Sound.status.PAUSED,
       };
 
+    case Types.PREV: {
+      const currentIndex = state.list.findIndex(
+        song => song.id === state.currentSong.id
+      );
+
+      const prev = state.list[currentIndex - 1];
+
+      if (prev) {
+        return {
+          ...state,
+          currentSong: prev,
+          status: Sound.status.PLAYING,
+        };
+      }
+
+      return state;
+    }
+
+    case Types.NEXT: {
+      const currentIndex = state.list.findIndex(
+        song => song.id === state.currentSong.id
+      );
+
+      const next = state.list[currentIndex + 1];
+
+      if (next) {
+        return {
+          ...state,
+          currentSong: next,
+          status: Sound.status.PLAYING,
+        };
+      }
+
+      return state;
+    }
+
     default:
       return state;
   }
 }
 
+/** ACTIONS */
 export const Creators = {
-  loadSong: song => ({
+  loadSong: (song, list) => ({
     type: Types.LOAD,
-    payload: { song },
+    payload: { song, list },
   }),
 
   play: () => ({ type: Types.PLAY }),
 
   pause: () => ({ type: Types.PAUSE }),
+
+  prev: () => ({ type: Types.PREV }),
+
+  next: () => ({ type: Types.NEXT }),
 };
