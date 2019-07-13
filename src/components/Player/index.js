@@ -26,7 +26,16 @@ import {
   Volume,
 } from './styles';
 
-const Player = ({ player, play, pause, prev, next }) => {
+const Player = ({
+  player,
+  play,
+  pause,
+  prev,
+  next,
+  playing,
+  position,
+  duration,
+}) => {
   return (
     <Container>
       {!!player.currentSong && (
@@ -34,6 +43,7 @@ const Player = ({ player, play, pause, prev, next }) => {
           url={player.currentSong.file}
           playStatus={player.status}
           onFinishedPlaying={next}
+          onPlaying={playing}
         />
       )}
 
@@ -80,7 +90,7 @@ const Player = ({ player, play, pause, prev, next }) => {
         </Controls>
 
         <Time>
-          <span>1:36</span>
+          <span>{position}</span>
           <ProgressSlider>
             <Slider
               railStyle={{ background: '#404040', borderRadius: 10 }}
@@ -88,7 +98,7 @@ const Player = ({ player, play, pause, prev, next }) => {
               handleStyle={{ display: 0 }}
             />
           </ProgressSlider>
-          <span>3:31</span>
+          <span>{duration}</span>
         </Time>
       </Progress>
 
@@ -119,10 +129,24 @@ Player.propTypes = {
   pause: PropTypes.func.isRequired,
   prev: PropTypes.func.isRequired,
   next: PropTypes.func.isRequired,
+  playing: PropTypes.func.isRequired,
+  position: PropTypes.string.isRequired,
+  duration: PropTypes.string.isRequired,
 };
+
+function msToTime(ms) {
+  console.log('----------------', ms);
+  const minutes = parseInt((ms / (1000 * 60)) % 60, 10);
+  let seconds = parseInt((ms / 1000) % 60, 10);
+  seconds = seconds < 10 ? `0${seconds}` : seconds;
+
+  return `${minutes}:${seconds}`;
+}
 
 const mapStateToProps = state => ({
   player: state.player,
+  position: msToTime(state.player.position),
+  duration: msToTime(state.player.duration),
 });
 
 const mapDispatchToProps = dispatch =>

@@ -7,6 +7,7 @@ const Types = {
   PAUSE: 'player/PAUSE',
   PREV: 'player/PREV',
   NEXT: 'player/NEXT',
+  PLAYING: 'player/PLAYING',
 };
 
 /** REDUCERS */
@@ -14,6 +15,8 @@ const INITIAL_STATE = {
   status: Sound.status.STOPPED,
   currentSong: null,
   list: [],
+  position: null,
+  duration: null,
 };
 
 export default function player(state = INITIAL_STATE, action) {
@@ -74,6 +77,13 @@ export default function player(state = INITIAL_STATE, action) {
       return state;
     }
 
+    case Types.PLAYING:
+      return {
+        ...state,
+        position: action.payload.position,
+        duration: action.payload.duration,
+      };
+
     default:
       return state;
   }
@@ -93,4 +103,9 @@ export const Creators = {
   prev: () => ({ type: Types.PREV }),
 
   next: () => ({ type: Types.NEXT }),
+
+  playing: ({ position, duration }) => ({
+    type: Types.PLAYING,
+    payload: { position, duration },
+  }),
 };
