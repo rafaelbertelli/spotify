@@ -3,12 +3,14 @@ import Sound from 'react-sound';
 /** TYPES */
 const Types = {
   LOAD: 'player/LOAD',
+  PLAY: 'player/PLAY',
+  PAUSE: 'player/PAUSE',
 };
 
 /** REDUCERS */
 const INITIAL_STATE = {
   currentSong: null,
-  status: Sound.status.PLAYING,
+  status: Sound.status.STOPPED,
 };
 
 export default function player(state = INITIAL_STATE, action) {
@@ -18,6 +20,18 @@ export default function player(state = INITIAL_STATE, action) {
         ...state,
         currentSong: action.payload.song,
         status: Sound.status.PLAYING,
+      };
+
+    case Types.PLAY:
+      return {
+        ...state,
+        status: Sound.status.PLAYING,
+      };
+
+    case Types.PAUSE:
+      return {
+        ...state,
+        status: Sound.status.PAUSED,
       };
 
     default:
@@ -30,4 +44,8 @@ export const Creators = {
     type: Types.LOAD,
     payload: { song },
   }),
+
+  play: () => ({ type: Types.PLAY }),
+
+  pause: () => ({ type: Types.PAUSE }),
 };
