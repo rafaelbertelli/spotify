@@ -8,6 +8,8 @@ const Types = {
   PREV: 'player/PREV',
   NEXT: 'player/NEXT',
   PLAYING: 'player/PLAYING',
+  HANDLE_POSITION: 'player/HANDLE_POSITION',
+  SET_POSITION: 'player/SET_POSITION',
 };
 
 /** REDUCERS */
@@ -17,6 +19,7 @@ const INITIAL_STATE = {
   list: [],
   position: null,
   duration: null,
+  positionShown: null,
 };
 
 export default function player(state = INITIAL_STATE, action) {
@@ -53,6 +56,7 @@ export default function player(state = INITIAL_STATE, action) {
           ...state,
           currentSong: prev,
           status: Sound.status.PLAYING,
+          position: null,
         };
       }
 
@@ -71,6 +75,7 @@ export default function player(state = INITIAL_STATE, action) {
           ...state,
           currentSong: next,
           status: Sound.status.PLAYING,
+          position: null,
         };
       }
 
@@ -82,6 +87,19 @@ export default function player(state = INITIAL_STATE, action) {
         ...state,
         position: action.payload.position,
         duration: action.payload.duration,
+      };
+
+    case Types.HANDLE_POSITION:
+      return {
+        ...state,
+        positionShown: state.duration * action.payload.percent,
+      };
+
+    case Types.SET_POSITION:
+      return {
+        ...state,
+        position: state.duration * action.payload.percent,
+        positionShown: null,
       };
 
     default:
@@ -107,5 +125,15 @@ export const Creators = {
   playing: ({ position, duration }) => ({
     type: Types.PLAYING,
     payload: { position, duration },
+  }),
+
+  handlePosition: percent => ({
+    type: Types.HANDLE_POSITION,
+    payload: { percent },
+  }),
+
+  setPosition: percent => ({
+    type: Types.SET_POSITION,
+    payload: { percent },
   }),
 };

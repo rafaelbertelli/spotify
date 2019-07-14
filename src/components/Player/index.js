@@ -35,6 +35,10 @@ const Player = ({
   playing,
   position,
   duration,
+  handlePosition,
+  setPosition,
+  positionShown,
+  progress,
 }) => {
   return (
     <Container>
@@ -44,6 +48,7 @@ const Player = ({
           playStatus={player.status}
           onFinishedPlaying={next}
           onPlaying={playing}
+          position={player.position}
         />
       )}
 
@@ -90,12 +95,16 @@ const Player = ({
         </Controls>
 
         <Time>
-          <span>{position}</span>
+          <span>{positionShown || position}</span>
           <ProgressSlider>
             <Slider
               railStyle={{ background: '#404040', borderRadius: 10 }}
               trackStyle={{ background: '#1ed760' }}
               handleStyle={{ display: 0 }}
+              value={progress}
+              max={1000}
+              onChange={value => handlePosition(value / 1000)}
+              onAfterChange={value => setPosition(value / 1000)}
             />
           </ProgressSlider>
           <span>{duration}</span>
@@ -108,7 +117,6 @@ const Player = ({
           railStyle={{ background: '#404040', borderRadius: 10 }}
           trackStyle={{ background: '#FFF' }}
           handleStyle={{ display: 'none' }}
-          value={100}
         />
       </Volume>
     </Container>
@@ -132,10 +140,15 @@ Player.propTypes = {
   playing: PropTypes.func.isRequired,
   position: PropTypes.string.isRequired,
   duration: PropTypes.string.isRequired,
+  handlePosition: PropTypes.func.isRequired,
+  setPosition: PropTypes.func.isRequired,
+  positionShown: PropTypes.string.isRequired,
+  progress: PropTypes.number.isRequired,
 };
 
 function msToTime(ms) {
-  console.log('----------------', ms);
+  if (!ms) return null;
+
   const minutes = parseInt((ms / (1000 * 60)) % 60, 10);
   let seconds = parseInt((ms / 1000) % 60, 10);
   seconds = seconds < 10 ? `0${seconds}` : seconds;
@@ -147,6 +160,13 @@ const mapStateToProps = state => ({
   player: state.player,
   position: msToTime(state.player.position),
   duration: msToTime(state.player.duration),
+  positionShown: msToTime(state.player.positionShown),
+  progress:
+    parseInt(
+      (state.player.positionShown || state.player.position) *
+        (1000 / state.player.duration),
+      10
+    ) || 0,
 });
 
 const mapDispatchToProps = dispatch =>
