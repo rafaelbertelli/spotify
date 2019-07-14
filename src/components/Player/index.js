@@ -39,6 +39,7 @@ const Player = ({
   setPosition,
   positionShown,
   progress,
+  setVolume,
 }) => {
   return (
     <Container>
@@ -49,6 +50,7 @@ const Player = ({
           onFinishedPlaying={next}
           onPlaying={playing}
           position={player.position}
+          volume={player.volume}
         />
       )}
 
@@ -117,6 +119,8 @@ const Player = ({
           railStyle={{ background: '#404040', borderRadius: 10 }}
           trackStyle={{ background: '#FFF' }}
           handleStyle={{ display: 'none' }}
+          value={player.volume}
+          onChange={setVolume}
         />
       </Volume>
     </Container>
@@ -144,6 +148,8 @@ Player.propTypes = {
   setPosition: PropTypes.func.isRequired,
   positionShown: PropTypes.string.isRequired,
   progress: PropTypes.number.isRequired,
+  setVolume: PropTypes.func.isRequired,
+  volume: PropTypes.number.isRequired,
 };
 
 function msToTime(ms) {
@@ -158,6 +164,7 @@ function msToTime(ms) {
 
 const mapStateToProps = state => ({
   player: state.player,
+  volume: state.player.volume,
   position: msToTime(state.player.position),
   duration: msToTime(state.player.duration),
   positionShown: msToTime(state.player.positionShown),
